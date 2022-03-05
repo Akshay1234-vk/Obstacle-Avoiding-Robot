@@ -1,0 +1,100 @@
+
+// Defining the motor pins to the Arduino
+const int LeftForward = 2;
+const int LeftBackward = 3;
+const int RightForward = 4;
+const int RightBackward = 5;
+
+// Defining the Ultrasonic Sensor Pins to the Arduino
+const int Trig = 12;
+const int Echo = 13;
+
+// Creating new variables for calculating distance
+long duration;
+int distance = 0;
+
+void setup() { 
+// Setting Trigger pin as Output (to send out sound waves) and Echo as Input (to receive sound waves)
+  pinMode(Trig, OUTPUT);
+  pinMode(Echo, INPUT);
+ 
+}
+
+// Defining the Directions for the motor to work accordingly
+void Forward(){
+  
+  digitalWrite(LeftForward, HIGH);
+  digitalWrite(LeftBackward, LOW);
+  digitalWrite(RightForward, HIGH);
+  digitalWrite(RightBackward, LOW);
+  
+  }
+
+void Right(){
+  
+  digitalWrite(LeftForward, HIGH);
+  digitalWrite(LeftBackward, LOW);
+  digitalWrite(RightForward, LOW);
+  digitalWrite(RightBackward, HIGH);
+  
+  }
+
+void Left(){
+  
+  digitalWrite(LeftForward, LOW);
+  digitalWrite(LeftBackward, HIGH);
+  digitalWrite(RightForward, HIGH);
+  digitalWrite(RightBackward, LOW);
+  
+  }
+
+void Back(){
+  
+  digitalWrite(LeftForward, LOW);
+  digitalWrite(LeftBackward, HIGH);
+  digitalWrite(RightForward, LOW);
+  digitalWrite(RightBackward, HIGH);
+  
+  }
+
+
+void Stop(){
+  
+  digitalWrite(LeftForward, LOW);
+  digitalWrite(LeftBackward, LOW);  
+  digitalWrite(RightForward, LOW);
+  digitalWrite(RightBackward, LOW);
+  
+  }
+
+void loop() {
+  // Code to calculate distance to Obstacle
+        digitalWrite(Trig, LOW);
+        delayMicroseconds(2);
+        digitalWrite(Trig, HIGH);
+        delayMicroseconds(10);
+        digitalWrite(Trig, LOW);
+        duration = pulseIn(Echo, HIGH);
+        distance = duration * 0.034 / 2;
+        
+        if (distance <= 20)
+        {
+          Stop();
+          delay(1000);
+          Back();
+          delay(1000);
+          Stop();
+          delay(1000);
+          Left();
+          delay(250); 
+        }
+        
+        
+        else if (distance > 20)
+        {
+          Forward();
+          }
+          
+          
+
+}
